@@ -1,0 +1,7 @@
+Alur program
+1.Login user atau admin di halaman login.php
+  atau daftar jika belum mempunyai akun
+  -catatan : hanya bisa daftar sebagai user
+2.Jika login dengan username yang statusnya admin maka
+  akan masuk ke halaman admin.php
+3.Jika login sebagai user maka akan masuk ke halaman home_user.php
