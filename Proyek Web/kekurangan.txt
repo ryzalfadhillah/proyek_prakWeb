@@ -1,0 +1,4 @@
+kekurangan : 
+1. Halaman keranjang
+2. Halaman Chekout
+3. Data Transaksi di Admin
