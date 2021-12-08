@@ -32,7 +32,7 @@ $result = mysqli_fetch_all($ambil, MYSQLI_ASSOC);
     <div class="container">
         <h3 class="text-center mt-3 mb-5">SILAHKAN EDIT MENU</h3>
         <div class="card p-5 mb-5">
-            <form method="POST" action="edit.php" enctype="multipart/form-data">
+            <form method="POST" action="" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="menu1">Nama Menu</label>
                     <input type="hidden" name="id_menu" value="<?php echo $result[0]['id_menu'] ?>">
@@ -59,8 +59,29 @@ $result = mysqli_fetch_all($ambil, MYSQLI_ASSOC);
                     <label for="gambar">Foto Menu</label>
                     <input type="file" class="form-control-file border" id="gambar" name="gambar">
                 </div><br>
-                <button type="submit" class="btn btn-primary" name="tambah">Edit</button>
+                <button type="submit" class="btn btn-primary" name="edit">Edit</button>
                 <button type="reset" class="btn btn-danger" name="reset">Hapus</button>
+            </form>
+            <?php
+
+            if (isset($_POST['edit'])) {
+
+                $nama_menu = $_POST['nama_menu'];
+                $jenis_menu = $_POST['jenis_menu'];
+                $harga = $_POST['harga'];
+                $nama_file = $_FILES['gambar']['name'];
+                $source = $_FILES['gambar']['tmp_name'];
+                $folder = './image/';
+
+                move_uploaded_file($source, $folder . $nama_file);
+                $edit = mysqli_query($conn, "UPDATE produk SET nama_produk='$nama_menu', harga='$harga', gambar='$nama_file', kategori='$jenis_menu' WHERE produk_id='$id_menu' ");
+
+                if ($edit)
+                    header('location: menu.php');
+                else
+                    echo "Edit Menu Gagal";
+            }
+            ?>
         </div>
     </div>
     <!-- Akhir Form Registrasi -->

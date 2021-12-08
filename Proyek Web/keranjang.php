@@ -2,6 +2,9 @@
 session_start();
 if ($_SESSION['login'] != true)
     header("Location: login.php?");
+
+$user = $_SESSION['username'];
+$_SESSION['username'] = $user;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -44,22 +47,61 @@ if ($_SESSION['login'] != true)
 
     <!-- header section ends  -->
 
-    <!-- footer section starts  -->
-
-    <section class="footer">
-
-        <div class="bottom">
-
-            <div class="credit"> created by <span>M. Azka Hartami & Ryzal Fadhillah</span></div>
-
+    <section class="popular" id="popular">
+        <div class="heading">
+            <span>Keranjang</span>
         </div>
 
+        <div class="box-container">
+            <?php
+
+            include('koneksi.php');
+
+            $query = mysqli_query($conn, "SELECT * FROM keranjang WHERE user='$user'");
+            $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
+
+            $total = 0;
+            ?>
+
+            <?php foreach ($result as $result) : ?>
+                <?php
+                $id_produk = $result['produk_id'];
+
+                $query1 = mysqli_query($conn, "SELECT * FROM produk WHERE produk_id='$id_produk'");
+                $result1 = mysqli_fetch_all($query1, MYSQLI_ASSOC);
+                ?>
+                <?php foreach ($result1 as $result1) : ?>
+                    <div class="box">
+                        <div class="image">
+                            <img src="image//<?php echo $result1['gambar'] ?>" alt="">
+                        </div>
+                        <div class="content">
+                            <h3><?php echo $result1['nama_produk'] ?></h3>
+                            <div class="price">Rp. <?php echo number_format($result1['harga']); ?></div>
+                            <a href="hapus_keranjang.php?produk_id=<?php echo $result['produk_id']  ?>" class="btn">Hapus</a>
+                        </div>
+                    </div>
+
+                    <?php $total += $result1['harga']; ?>
+                <?php endforeach; ?>
+            <?php endforeach; ?>
     </section>
+    <section>
+        <center>
+            <div class="cart-total">
 
-    <!-- footer section ends -->
+                <h3 class="title" style="font-size: 24px;"><b>Total belanjaan</b></h3>
 
-    <!-- custom js file link  -->
-    <script src="js/script.js"></script>
+                <div class="box">
+
+                    <h3 class="total"> Rp. <span><?php echo number_format($total); ?></span> </h3>
+
+                    <a href="checkout.php?user_id=<?php echo $user ?>" class="btn" name="checkout">checkout</a>
+
+                </div>
+            </div>
+        </center>
+    </section>
 
 </body>
 

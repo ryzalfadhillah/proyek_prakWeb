@@ -2,7 +2,13 @@
 session_start();
 if ($_SESSION['login'] != true)
     header("Location: login.php?");
+
+$user = $_SESSION['username'];
+$_SESSION['username'] = $user;
+
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -105,7 +111,7 @@ if ($_SESSION['login'] != true)
                     <div class="content">
                         <h3><?php echo $result['nama_produk'] ?></h3>
                         <div class="price">Rp. <?php echo number_format($result['harga']); ?></div>
-                        <a href="keranjang.php?produk_id=<?php echo $result['produk_id']  ?>" class="btn">Tambah ke keranjang</a>
+                        <a href="tambah_keranjang.php?produk_id=<?php echo $result['produk_id']  ?>" class="btn">Tambah ke keranjang</a>
                     </div>
                 </div>
             <?php endforeach; ?>
